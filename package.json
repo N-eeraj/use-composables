@@ -1,12 +1,17 @@
 {
-  "name": "use-composables",
-  "version": "0.0.1",
-  "description": "",
+  "name": "@n-eeraj/use-composables",
+  "version": "0.1.001",
+  "description": "use-composables is a collection of Vue composables for easier state management and code reuse. Currently, it includes `useContext` for sharing state across components without prop drilling. More composables will be added in the future.",
   "scripts": {
-    "build": "vite build && tsc -p tsconfig.json && sh minify.sh"
+    "build": "vite build && tsc -p tsconfig.json && sh minify.sh",
+    "package-publish": "sh publish.sh"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "vue",
+    "composables",
+    "useContext"
+  ],
+  "author": "N-eeraj",
   "license": "ISC",
   "types": "dist/index.d.ts",
   "devDependencies": {
@@ -17,5 +22,9 @@
   },
   "peerDependencies": {
     "vue": "^3.5.13"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/N-eeraj/use-composables"
   }
 }

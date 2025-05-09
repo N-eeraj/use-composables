@@ -2,28 +2,36 @@ import { defineConfig } from "vite"
 import path from "path"
 import fs from "fs"
 
-const srcPath = path.resolve(__dirname, "src")
+// Recursively find all .ts files in src/
+function findAllTSFiles(dir: string, entries: Record<string, string> = {}) {
+  const files = fs.readdirSync(dir, { withFileTypes: true })
 
-const inputEntries = fs.readdirSync(srcPath)
-  .filter(file => file.endsWith(".ts"))
-  .reduce((entries, file) => {
-    const name = path.basename(file, ".ts")
-    entries[name] = path.resolve(srcPath, file)
-    return entries
-  }, {} as Record<string, string>)
+  for (const file of files) {
+    const fullPath = path.join(dir, file.name)
+
+    if (file.isDirectory()) {
+      findAllTSFiles(fullPath, entries)
+    } else if (file.isFile() && file.name.endsWith(".ts")) {
+      // Generate a key like subdir/composable2
+      const relative = path.relative("src", fullPath).replace(/\.ts$/, "")
+      entries[relative] = path.resolve(fullPath)
+    }
+  }
+
+  return entries
+}
+
+const inputEntries = findAllTSFiles(path.resolve(__dirname, "src"))
 
 export default defineConfig({
   build: {
     outDir: "dist",
-    lib: {
-      entry: inputEntries,
-      formats: ["es"],
-    },
     rollupOptions: {
+      input: inputEntries,
       external: ["vue"],
       output: {
-        chunkFileNames: "shared/[name]-[hash].js",
-        assetFileNames: "assets/[name]-[hash][extname]",
+        format: "es",
+        entryFileNames: "[name].js",
       },
     },
   },
