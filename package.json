@@ -1,0 +1,21 @@
+{
+  "name": "use-composables",
+  "version": "0.0.1",
+  "description": "",
+  "scripts": {
+    "build": "vite build && tsc -p tsconfig.json && sh minify.sh"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "types": "dist/index.d.ts",
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.2.4",
+    "terser": "^5.39.0",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.5"
+  },
+  "peerDependencies": {
+    "vue": "^3.5.13"
+  }
+}
